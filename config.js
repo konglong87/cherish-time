@@ -1,4 +1,4 @@
-exports.API_URL = "https://test-time.wugenglong.com/api/weapp/v1/";
+exports.API_URL = "https://time.wugenglong.com/api/weapp/v1/";
 exports.ACTION = {
   USER: {
     LOGIN: 'user/login',
