@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "description": "项目配置文件。",
   "setting": {
     "urlCheck": false,
@@ -55,4 +56,50 @@
       "list": []
     }
   }
+=======
+	"description": "项目配置文件。",
+	"setting": {
+		"urlCheck": true,
+		"es6": true,
+		"postcss": true,
+		"minified": true,
+		"newFeature": true
+	},
+	"compileType": "miniprogram",
+	"appid": "",
+	"libVersion": "2.4.4",
+	"projectname": "cherish-time",
+	"isGameTourist": false,
+	"simulatorType": "wechat",
+	"simulatorPluginLibVersion": {},
+	"condition": {
+		"search": {
+			"current": -1,
+			"list": []
+		},
+		"conversation": {
+			"current": -1,
+			"list": []
+		},
+		"plugin": {
+			"current": -1,
+			"list": []
+		},
+		"game": {
+			"currentL": -1,
+			"list": []
+		},
+		"miniprogram": {
+			"current": 0,
+			"list": [
+				{
+					"id": 0,
+					"name": "开发",
+					"pathName": "pages/index/index",
+					"query": "type=1"
+				}
+			]
+		}
+	}
+>>>>>>> 2cb337fc4c63ee2c2962a3cb2232d08c7177df63
 }

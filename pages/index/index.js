@@ -2,6 +2,7 @@
 //获取应用实例
 const app = getApp()
 var CONFIG = require("../../config");
+let interstitialAd = null
 
 const winW = wx.getSystemInfoSync().screenWidth; // 屏幕宽度
 const ratio = 750 / winW //px && rpx 单位转换 (乘于 这个属性是 px 转换成 rpx)
@@ -16,6 +17,7 @@ Page({
     isShowMask: false,
     currentMaskColor: ['#fc9e9a', '#fed89c'], //遮罩层颜色
     currentMaskItem: {
+      id: "TIME_ID",
       color: ['#fc9e9a', '#fed89c'],
       createTime: 1530803261,
       date: 20181001,
@@ -33,20 +35,37 @@ Page({
     dataCount: 0, //列表数据数量
     isEnd: false, //是否到底
     currentPage: 1, //当前页码
-    lastPage: 1, //总共有多少页
-
-    isCanRefresh: false, //是否可以刷新
+    lastPage: 1 //总共有多少页
   },
 
   onLoad: function(options) {
+    console.log("初始化广告")
+    if (wx.createInterstitialAd) {
+      interstitialAd = wx.createInterstitialAd({
+        adUnitId: 'adunit-02d086c8e85e53f8'
+      })
+      interstitialAd.onLoad(() => {})
+      interstitialAd.onError((err) => {})
+      interstitialAd.onClose(() => {})
+    }
+
     //获取用户信息
     this.getUserInfo()
+
+    console.log("展示广告")
+    if (interstitialAd) {
+      interstitialAd.show().catch((err) => {
+        console.error(err)
+      })
+    }
   },
 
   onShow: function() {
-    if (this.data.isCanRefresh) {
-      this.getTimeData()
-    }
+    this.getTimeData()
+
+    wx.showShareMenu({
+      withShareTicket: true
+    })
   },
 
   onGotUserInfo: function(e) {
@@ -166,10 +185,8 @@ Page({
 
   //选择器
   bindPickerChange: function(event) {
-    let _type = event.currentTarget.dataset.type; //默认倒计时
-    console.log(_type)
     wx.navigateTo({
-      url: '/pages/create/create?type=' + _type
+      url: '/pages/create/create'
     });
   },
 
@@ -203,12 +220,30 @@ Page({
     })
   },
 
+  //修改默认数据
+  changeCurrentMaskItemData: function(data) {
+    //todo 下拉刷新列表
+    var currentMaskItem = this.data.currentMaskItem
+
+    Object.keys(data).forEach(function(key) {
+      if (currentMaskItem.hasOwnProperty(key)) {
+        currentMaskItem[key] = data[key]
+      }
+    });
+
+    this.setData({
+      currentMaskItem: currentMaskItem,
+      currentMaskColor: currentMaskItem.color
+    })
+  },
+
   //获取列表
   getTimeData: function(currentPage = 1, isRefresh = false) {
     let _this = this;
 
     var inputData = {
       "currentPage": currentPage,
+      "perPage": 20
     }
     app.postRequest(CONFIG.ACTION.TIME.LIST, inputData, true, function(res) {
       var timeList = []
@@ -232,9 +267,9 @@ Page({
   },
 
   //删除
-  _del: function(e) {
+  deleteEvent: function(e) {
     var _this = this;
-    var id = e.currentTarget.dataset.id
+    var id = e.detail.timeId
 
     wx.showModal({
       title: '确定删除？',
@@ -259,12 +294,23 @@ Page({
           app.postRequest(CONFIG.ACTION.TIME.DELETE, data, true, function(res) {
             console.log(res)
           })
+
+          //关闭遮罩层
+          _this.hideMask()
         } else if (res.cancel) {
           console.log('用户点击取消')
         }
       }
     })
     this._showNotData(_this.data.timeList)
+  },
+
+  //编辑事件
+  editEvent(e) {
+    var urlData = this.param(e.detail);
+    wx.navigateTo({
+      url: '/pages/create/create?' + urlData
+    });
   },
 
   //下拉刷新
@@ -282,23 +328,9 @@ Page({
   //上拉加载
   onReachBottom() {
     console.log('上拉加载');
-    console.log(this.data.currentPage);
     if (this.data.currentPage < this.data.lastPage) {
       this.getTimeData(this.data.currentPage + 1, true)
     }
-  },
-
-  showPopup() {
-    let popupComponent = this.selectComponent('.J_Popup');
-    popupComponent && popupComponent.show();
-
-    this.setData({
-      isCanRefresh: true
-    })
-  },
-  hidePopup() {
-    let popupComponent = this.selectComponent('.J_Popup');
-    popupComponent && popupComponent.hide();
   },
 
   //控制显示空数据流
@@ -312,5 +344,26 @@ Page({
       isShowNotData: isShowNotData
     })
   },
+
+  //对象序列化成url格式
+  param: function(json) {
+    if (!json) return ''
+    return this.cleanArray(Object.keys(json).map(key => {
+      if (json[key] === undefined) return ''
+      return encodeURIComponent(key) + '=' +
+        encodeURIComponent(json[key])
+    })).join('&')
+  },
+
+  cleanArray: function(actual) {
+    const newArray = []
+    for (let i = 0; i < actual.length; i++) {
+      if (actual[i]) {
+        newArray.push(actual[i])
+      }
+    }
+    return newArray
+  }
+
 
 })

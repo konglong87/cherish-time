@@ -1,4 +1,5 @@
 /**index.wxss**/
+
 .block {
   border-radius: 15rpx;
   height: 200rpx;
@@ -25,11 +26,15 @@
 }
 
 .blockLeft {
+  /* border: 1rpx solid #19191a; */
+  width: 66%;
   float: left;
 }
 
 .blockRight {
+  /* border: 1rpx solid #19191a; */
   float: right;
+  width: 32%;
 }
 
 .dayType {
@@ -71,9 +76,11 @@
   color: #fff;
   text-align: right;
   font-size: 58rpx;
+  min-width: 110rpx;
 }
 
 .daysDiv {
+  /* border: 1rpx solid #19191a; */
   padding-top: 10rpx;
   padding-right: 40rpx;
   text-align: right;
@@ -108,15 +115,6 @@
   display: flex;
   justify-content: center;
   background-color: #fff;
-}
-
-.popup__content {
-  width: 100%;
-  height: 420rpx;
-  line-height: 100rpx;
-  background: #fff;
-  text-align: center;
-  background: transparent;
 }
 
 .authorization__box {
@@ -213,4 +211,10 @@
   flex-direction: row-reverse;
   background: #fff;
   margin: 25rpx;
+}
+
+.bottomAD {
+  width: 94%;
+  padding-bottom: 25rpx;
+  margin: 0 auto;
 }

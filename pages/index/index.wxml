@@ -5,7 +5,36 @@
     return val.toString().replace(reg, '$1-$2-$3');
   }
 
+  //判断月份、日期是否相等
+  var monthDay = function(val) {
+    var date = getDate();
+    var month = date.getMonth() + 1;
+    var day = date.getDate();
+
+    if (parseInt(val.slice(4, 6)) == month && parseInt(val.slice(6, 8)) == day) {
+      return true;
+    }
+
+    return false;
+  }
+
+  //获取年份间隔
+  var yesrsBetween = function(val) {
+    var date = getDate();
+    var year = date.getFullYear();
+
+    var target = val.slice(0, 4);
+    year - target
+    if (year <= target) {
+      return target - year
+    }
+
+    return year - target
+  }
+
   module.exports.formatDataToString = formatDataToString;
+  module.exports.monthDay = monthDay;
+  module.exports.yesrsBetween = yesrsBetween;
 </wxs>
 
 <view class="authorization" wx:if="{{isShowAuthorization}}">
@@ -20,7 +49,6 @@
 </view>
 
 <wxc-abnor wx:if="{{isShowNotData}}" type="DATA" image="{{image}}" title="你还没添加数据哦" tip="点击右下方按钮添加吧"></wxc-abnor>
-
 <view class="section">
   <scroll-view scroll-y bindscrolltoupper="upper" bindscrolltolower="lower" bindscroll="scroll" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}">
     <view class='slide' wx:for="{{ timeList }}" wx:key="index">
@@ -31,10 +59,18 @@
         </view>
 
         <view class='blockRight'>
-          <view id="timeTypeLable">{{ item.days === null? '当前状态': item.type == 1? '剩余':'累计' }}</view>
+          <view id="timeTypeLable">{{ item.days === -1? '当前状态': item.type == 1? '剩余':'累计' }}</view>
           <view class='daysDiv'>
-            <view id="days" style="{{ item.days === null? 'font-size:45rpx;padding:11rpx 0rpx' : '' }}">{{ item.days === null? '已结束': item.days }}</view>
-            <view id="dayLabel">{{ item.days === null? '': '天' }}</view>
+            <view id="days" style="{{ item.days === -1? 'font-size:45rpx;padding:11rpx 0rpx' : '' }}">
+              <view wx:if="{{item.days === -1}}">已结束</view>
+              <view wx:elif="{{m1.monthDay(item.date) == true && item.type == 2}}">{{m1.yesrsBetween(item.date)}}</view>
+              <view wx:else>{{item.days}}</view>
+
+            </view>
+            <view id="dayLabel" wx:if="{{item.days === -1}}">
+            </view>
+            <view id="dayLabel" wx:elif="{{m1.monthDay(item.date) == true && item.type == 2}}">周年</view>
+            <view id="dayLabel" wx:else>天</view>
           </view>
           <view class="blockButton">查看详情</view>
         </view>
@@ -42,19 +78,14 @@
     </view>
   </scroll-view>
   <wxc-loadmore wx:if="{{timeList.length > 6}}" is-end="{{isEnd}}" text="到底了～"></wxc-loadmore>
+  <view class="bottomAD">
+    <ad unit-id="adunit-a901cf8bc5d449f1" ad-type="grid" grid-opacity="0.8" grid-count="5" ad-theme="white"></ad>
+  </view>
 </view>
 
-<view class="float-button" bindtap="showPopup">
+<view class="float-button" bindtap="bindPickerChange">
   <image class="float-button-icon" src="/images/icon-add.png"></image>
 </view>
-
-<wxc-popup class="J_Popup" animation-mode="bottom" align="bottom">
-  <view class="popup__content">
-    <wxc-button type="beauty" btnStyle="min-width: 200rpx;padding: 0;border-radius: 132rpx;margin-right:20rpx" bindtap="bindPickerChange" data-type="1">倒数日</wxc-button>
-
-    <wxc-button type="beauty" btnStyle="min-width: 200rpx;padding: 0;border-radius: 132rpx;margin-left:20rpx" bindtap="bindPickerChange" data-type="2">累计日</wxc-button>
-  </view>
-</wxc-popup>
 
 <view id="fullScreen" class="viewHide{{isShowMask?'ViewShow':''}}">
 
@@ -63,17 +94,7 @@
       <image src="/images/icon-close.png"></image>
     </view>
 
-    <countdown timeName="{{ currentMaskItem.name }}" timeType="{{ currentMaskItem.type }}" days="{{ currentMaskItem.days }}" color="{{currentMaskColor}}" remark="{{ currentMaskItem.remark }}" date="{{m1.formatDataToString(currentMaskItem.date)}}" sentence="{{ currentMaskItem.sentence }}"></countdown>
-    <!-- 
-    <view id="timeType">{{ currentMaskItem.type==1? '倒数日':'累计日' }}</view>
-    <view id="timeName">{{ currentMaskItem.name }}</view>
-
-    <view id="timeName">{{ currentMaskItem.days }}</view>
-
-    <view id="timeName">{{ currentMaskItem.type == 1? '目标日':'起始日' }}：{{m1.formatDataToString(currentMaskItem.date)}}</view>
-
-    <view id="timeName">{{ currentMaskItem.remark }}</view> -->
+    <countdown timeId="{{ currentMaskItem.id }}" timeName="{{ currentMaskItem.name }}" timeType="{{ currentMaskItem.type }}" days="{{ currentMaskItem.days }}" color="{{currentMaskColor}}" remark="{{ currentMaskItem.remark }}" date="{{m1.formatDataToString(currentMaskItem.date)}}"
+      originDate="{{ currentMaskItem.date }}" sentence="{{ currentMaskItem.sentence }}" binddelete="deleteEvent" bindedit="editEvent"></countdown>
   </view>
-  <!-- {{currentMaskItem.type}}
-  <view class="dialog"></view>  -->
 </view>
