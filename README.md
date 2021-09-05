@@ -1,25 +1,18 @@
-# 惜时光微信小程序
 
-## 简介
+## 安装步骤
+1、先把 package-lock.json,package.json,node_modules,miniprogram_npm都删干净。
+2、打开终端，执行 npm init ，全程回车，不输入任何配置信息
 
-**惜时光**是一款记录纪念日、倒数日的微信小程序，前端采用原生的微信小程序开发，后端有PHP和Golang两个版本，目前两个后端版本都一样，后期主要维护Golang版。
+3、执行 npm i vant-weapp -S --production
 
+4、npm install -g @mindev/min-cli
 
-
-## 后端项目
-
-Golang：[https://github.com/woodylan/cherish-time-go](https://github.com/woodylan/cherish-time-go)
-
-PHP：[https://github.com/woodylan/cherish-time-php](https://github.com/woodylan/cherish-time-php)
-
-
-
-## 项目截图
-
-![小程序码](https://github.com/woodylan/cherish-time/blob/master/images/miniprogram-qcode.jpg)
-
-![主界面](https://github.com/woodylan/cherish-time/blob/master/images/readme_main.png)
-
-![详情页面](https://github.com/woodylan/cherish-time/blob/master/images/readme_detail.png)
-
-![添加页面](https://github.com/woodylan/cherish-time/blob/master/images/readme_add.png)
+5、逐个安装 
+min install @minui/wxc-mask 
+ min install @minui/wxc-button 
+  min install @minui/wxc-popup   
+  min install @minui/wxc-loadmore 
+  min install   @minui/wxc-mask
+  min install   @minui/wxc-input
+  
+   宗旨，  提示那个不存在就安装那个

@@ -6,10 +6,11 @@
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#ffffff",
-    "navigationBarTitleText": "惜时光",
+    "navigationBarTitleText": "kkk",
     "navigationBarTextStyle": "black",
     "backgroundColor": "#fbfbfb",
     "backgroundColorTop": "#ffffff"
   },
-  "debug": true
+  "debug": true,
+  "sitemapLocation": "sitemap.json"
 }

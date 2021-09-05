@@ -5,7 +5,6 @@
     "wxc-popup": "/dist/packages/@minui/wxc-popup/dist/index",
     "wxc-button": "/dist/packages/@minui/wxc-button/dist/index",
     "wxc-abnor": "/dist/packages/@minui/wxc-abnor/dist/index",
-    "wxc-input": "/dist/packages/@minui/wxc-input/dist/index",
     "countdown": "/components/countdown/countdown"
   },
   "enablePullDownRefresh": true,

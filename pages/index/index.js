@@ -20,7 +20,7 @@ Page({
       id: "TIME_ID",
       color: ['#fc9e9a', '#fed89c'],
       createTime: 1530803261,
-      date: 20181001,
+      date: 20211001,
       days: 87,
       name: "国庆",
       remark: "旅游去咯",
@@ -122,10 +122,19 @@ Page({
             }
 
             // 发送 res.code 到后台换取 openId, sessionKey, unionId
-            app.postRequest(CONFIG.ACTION.USER.LOGIN, data, false, function(res) {
-              wx.removeStorageSync('auth');
-              wx.setStorageSync('auth', res.data.auth);
-              _this.getTimeData()
+            app.postRequest(
+              CONFIG.ACTION.USER.LOGIN,
+               data,
+              false,
+              function(res) {
+                try {
+                  wx.removeStorageSync('auth')
+                }catch(e){
+                  console.log("移除 auth 错误",e)
+                }
+                console.log("登录陈宫返回值tocahce：",res.data.auth);
+                wx.setStorageSync('auth', res.data.auth);
+                _this.getTimeData()
             })
 
             this.setData({
@@ -153,7 +162,7 @@ Page({
     // 获取用户信息
     wx.getSetting({
       success: settingRes => {
-        console.log(settingRes.authSetting['scope.userInfo'])
+        console.log("[干嘛呢]",settingRes.authSetting['scope.userInfo'])
         if (settingRes.authSetting['scope.userInfo']) {
           if (_this.isLogin() == false) {
             console.log('登录')
