@@ -27,8 +27,8 @@ Page({
       type: 1,
       sentence: {
         id: '111',
-        content: '答案很长，我准备用一生的时间来回答，你准备要听了吗？',
-        author: '林徽因',
+        content: '答案很长，我准备用一生的时间来回答，你准备要听了嘛',
+        author: '孔二黑',
         book: ''
       }
     }, //当前遮罩层数据
@@ -42,7 +42,8 @@ Page({
     console.log("初始化广告")
     if (wx.createInterstitialAd) {
       interstitialAd = wx.createInterstitialAd({
-        adUnitId: 'adunit-02d086c8e85e53f8'
+        // todo 开通 流量主
+        adUnitId: 'adunit-02d0888888888888'
       })
       interstitialAd.onLoad(() => {})
       interstitialAd.onError((err) => {})

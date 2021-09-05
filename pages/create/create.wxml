@@ -2,12 +2,12 @@
   <view class="input-wrap">
     <input name="id" value="{{id}}" hidden/>
     <input name="name" value="{{name}}" hidden/>
-    <wxc-input type="text" mode="wrapped" right="{{true}}" value="{{name}}" title="名称" bind:input="onInputName" placeholder="这是一个什么日子" maxlength="10"></wxc-input>
+    <wxc-input type="text" mode="wrapped" right="{{true}}" value="{{name}}" title="名称" bind:input="onInputName" placeholder="今天与孔小黑的日子" maxlength="27"></wxc-input>
   </view>
 
   <view class="input-wrap">
     <picker mode="date" name="date" value="{{date}}" start="1970-01-01" bindchange="bindDateChange">
-      <wxc-input mode="wrapped" right="{{true}}" title="日期" placeholder="发生在哪一天" value="{{date}}" disabled></wxc-input>
+      <wxc-input mode="wrapped" right="{{true}}" title="日期" placeholder="今天" value="{{date}}" disabled></wxc-input>
     </picker>
   </view>
 
@@ -33,7 +33,7 @@
   </view>  -->
 
   <view class="weui-btn-area">
-    <button class="weui-btn" type="primary" formType="submit" disabled="{{isButtonDisabled}}">确定</button>
+    <button class="weui-btn" type="primary" formType="submit" disabled="{{isButtonDisabled}}">朕已阅</button>
   </view>
 
 </form>
