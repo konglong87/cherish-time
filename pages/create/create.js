@@ -100,15 +100,21 @@ Page({
 
   validate: function(inputData, type) {
     if (inputData.name.length == 0) {
-      this.showToastTip('名称必须填写')
-
+      wx.showToast({
+        title: '小黑干嘛了',
+        icon:'loading',
+        duration:2700,
+    })
       return false
     }
 
     console.log(inputData.date)
     if (inputData.date === null) {
-      this.showToastTip('日期必须填写')
-
+      wx.showToast({
+          title: '日期必须填写哦',
+          icon:'error',
+          duration:2700,
+      })
       return false
     }
 
@@ -119,6 +125,7 @@ Page({
     var inputData = e.detail.value
     let _this = this
 
+    
     //判断是否为空
     if (!this.validate(inputData)) {
       return
